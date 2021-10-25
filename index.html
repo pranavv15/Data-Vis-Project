@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Vis Project</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+</head>
+<body>
+    <script>
+    data = "United States and Puerto Rico Cancer Statistics, 1999-2017 Incidence Archive-2.csv"
+    d3.csv(data, function(d){
+        return {
+            State: String(d.States),
+            Sex:   String(d.Sex),
+            Total: Number(d.Count)
+        }
+    }).then(d => {
+        // console.log(d)
+        let svg = d3.select("body").append('svg')
+
+        xScale = d3.scaleLinear().domain().range()
+        yScale = d3.scaleLinear().domain().range()
+        
+    })
+    </script>
+    
+</body>
+</html>

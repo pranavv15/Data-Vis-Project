@@ -1,0 +1,155 @@
+Notes,States,States Code,Sex,Sex Code,Count
+,Alabama,1,Female,F,225788
+,Alabama,1,Male,M,242602
+Total,Alabama,1,,,468390
+,Alaska,2,Female,F,25006
+,Alaska,2,Male,M,25665
+Total,Alaska,2,,,50671
+,Arizona,4,Female,F,267965
+,Arizona,4,Male,M,266605
+Total,Arizona,4,,,534570
+,Arkansas,5,Female,F,126121
+,Arkansas,5,Male,M,140240
+Total,Arkansas,5,,,266361
+,California,6,Female,F,1561272
+,California,6,Male,M,1497598
+Total,California,6,,,3058870
+,Colorado,8,Female,F,205830
+,Colorado,8,Male,M,197210
+Total,Colorado,8,,,403040
+,Connecticut,9,Female,F,211201
+,Connecticut,9,Male,M,193518
+Total,Connecticut,9,,,404719
+,Delaware,10,Female,F,49716
+,Delaware,10,Male,M,50887
+Total,Delaware,10,,,100603
+,District of Columbia,11,Female,F,30068
+,District of Columbia,11,Male,M,27801
+Total,District of Columbia,11,,,57869
+,Florida,12,Female,F,1069548
+,Florida,12,Male,M,1151144
+Total,Florida,12,,,2220692
+,Georgia,13,Female,F,410055
+,Georgia,13,Male,M,417584
+Total,Georgia,13,,,827639
+,Hawaii,15,Female,F,64720
+,Hawaii,15,Male,M,63152
+Total,Hawaii,15,,,127872
+,Idaho,16,Female,F,66261
+,Idaho,16,Male,M,70933
+Total,Idaho,16,,,137194
+,Illinois,17,Female,F,651537
+,Illinois,17,Male,M,620795
+Total,Illinois,17,,,1272332
+,Indiana,18,Female,F,321173
+,Indiana,18,Male,M,312821
+Total,Indiana,18,,,633994
+,Iowa,19,Female,F,166580
+,Iowa,19,Male,M,167359
+Total,Iowa,19,,,333939
+,Kansas,20,Female,F,136156
+,Kansas,20,Male,M,139318
+Total,Kansas,20,,,275474
+,Kentucky,21,Female,F,235866
+,Kentucky,21,Male,M,241954
+Total,Kentucky,21,,,477820
+,Louisiana,22,Female,F,214043
+,Louisiana,22,Male,M,237124
+Total,Louisiana,22,,,451167
+,Maine,23,Female,F,82448
+,Maine,23,Male,M,81360
+Total,Maine,23,,,163808
+,Maryland,24,Female,F,286897
+,Maryland,24,Male,M,268494
+Total,Maryland,24,,,555391
+,Massachusetts,25,Female,F,382065
+,Massachusetts,25,Male,M,342537
+Total,Massachusetts,25,,,724602
+,Michigan,26,Female,F,527082
+,Michigan,26,Male,M,530810
+Total,Michigan,26,,,1057892
+,Minnesota,27,Female,F,258685
+,Minnesota,27,Male,M,261942
+Total,Minnesota,27,,,520627
+,Mississippi,28,Female,F,110774
+,Mississippi,28,Male,M,123311
+Total,Mississippi,28,,,234085
+,Missouri,29,Female,F,307972
+,Missouri,29,Male,M,300427
+Total,Missouri,29,,,608399
+,Montana,30,Female,F,51705
+,Montana,30,Male,M,55450
+Total,Montana,30,,,107155
+,Nebraska,31,Female,F,90407
+,Nebraska,31,Male,M,91390
+Total,Nebraska,31,,,181797
+,Nevada,32,Female,F,108610
+,Nevada,32,Male,M,114776
+Total,Nevada,32,,,223386
+,New Hampshire,33,Female,F,74618
+,New Hampshire,33,Male,M,73076
+Total,New Hampshire,33,,,147694
+,New Jersey,34,Female,F,502228
+,New Jersey,34,Male,M,469952
+Total,New Jersey,34,,,972180
+,New Mexico,35,Female,F,83413
+,New Mexico,35,Male,M,84529
+Total,New Mexico,35,,,167942
+,New York,36,Female,F,1086608
+,New York,36,Male,M,1010451
+Total,New York,36,,,2097059
+,North Carolina,37,Female,F,457965
+,North Carolina,37,Male,M,462333
+Total,North Carolina,37,,,920298
+,North Dakota,38,Female,F,33011
+,North Dakota,38,Male,M,35963
+Total,North Dakota,38,,,68974
+,Ohio,39,Female,F,616209
+,Ohio,39,Male,M,595356
+Total,Ohio,39,,,1211565
+,Oklahoma,40,Female,F,179606
+,Oklahoma,40,Male,M,183747
+Total,Oklahoma,40,,,363353
+,Oregon,41,Female,F,196224
+,Oregon,41,Male,M,189267
+Total,Oregon,41,,,385491
+,Pennsylvania,42,Female,F,765536
+,Pennsylvania,42,Male,M,738097
+Total,Pennsylvania,42,,,1503633
+,Rhode Island,44,Female,F,63330
+,Rhode Island,44,Male,M,58663
+Total,Rhode Island,44,,,121993
+,South Carolina,45,Female,F,225540
+,South Carolina,45,Male,M,238531
+Total,South Carolina,45,,,464071
+,South Dakota,46,Female,F,36589
+,South Dakota,46,Male,M,38646
+Total,South Dakota,46,,,75235
+,Tennessee,47,Female,F,303008
+,Tennessee,47,Male,M,308370
+Total,Tennessee,47,,,611378
+,Texas,48,Female,F,951428
+,Texas,48,Male,M,967665
+Total,Texas,48,,,1919093
+,Utah,49,Female,F,82472
+,Utah,49,Male,M,89207
+Total,Utah,49,,,171679
+,Vermont,50,Female,F,35643
+,Vermont,50,Male,M,34165
+Total,Vermont,50,,,69808
+,Virginia,51,Female,F,359894
+,Virginia,51,Male,M,345442
+Total,Virginia,51,,,705336
+,Washington,53,Female,F,329601
+,Washington,53,Male,M,318963
+Total,Washington,53,,,648564
+,West Virginia,54,Female,F,108822
+,West Virginia,54,Male,M,111405
+Total,West Virginia,54,,,220227
+,Wisconsin,55,Female,F,293117
+,Wisconsin,55,Male,M,293571
+Total,Wisconsin,55,,,586688
+,Wyoming,56,Female,F,23037
+,Wyoming,56,Male,M,25552
+Total,Wyoming,56,,,48589
+Total,,,,,29961208
