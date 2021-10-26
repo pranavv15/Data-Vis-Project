@@ -10,19 +10,42 @@
 </head>
 <body>
     <script>
-    data = "United States and Puerto Rico Cancer Statistics, 1999-2017 Incidence Archive-2.csv"
+    data = "Cancer-Data.csv"
     d3.csv(data, function(d){
         return {
             State: String(d.States),
-            Sex:   String(d.Sex),
-            Total: Number(d.Count)
+            Male:   Number(d["Male"]),
+            Female: Number(d["Female"])
         }
     }).then(d => {
-        // console.log(d)
-        let svg = d3.select("body").append('svg')
+        console.log(d)
 
-        xScale = d3.scaleLinear().domain().range()
-        yScale = d3.scaleLinear().domain().range()
+        let stack = d3.stack().keys(["Male","Female"])
+        stackedseries = stack(d)
+
+        console.log(stackedseries)
+
+        // get min and max and make scaling functions
+
+        let xmin_max = {min:0,max: d3.max(stackedseries, function(d){
+            return d3.max(d, function(d){
+                return d[1];
+            })
+        })}
+        console.log(xmin_max)
+
+        // Make Scaling Functions
+
+        xScale = d3.scaleLinear().domain([xmin_max.min, xmin_max.max]).range([0,1000])
+        yScale = d3.scaleBand().domain(d.States).range([600,0])
+
+
+        let groups = svg.selectAll('g').data(stackedseries).enter().append('g');
+        console.log(groups)
+        // let svg = d3.select("body").append('svg')
+
+        // xScale = d3.scaleLinear().domain().range()
+        // yScale = d3.scaleLinear().domain().range()
         
     })
     </script>
