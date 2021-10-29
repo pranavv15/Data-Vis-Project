@@ -6,9 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Vis Project</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+        #container {
+            width: 80%;
+            margin: auto;
+            padding-top: 3%;
+        }
+    </style>
 
 </head>
 <body>
+    <div id="container">
+        <svg viewBox = "0 0 1000 600">
+
+        </svg>
+    </div>
     <script>
     data = "Cancer-Data.csv"
     d3.csv(data, function(d){
@@ -23,7 +39,7 @@
         let stack = d3.stack().keys(["Male","Female"])
         stackedseries = stack(d)
 
-        console.log(stackedseries)
+         console.log(stackedseries)
 
         // get min and max and make scaling functions
 
@@ -33,19 +49,25 @@
             })
         })}
         console.log(xmin_max)
-
+        console.log(d3.map(d, function(d,i) {return d["State"]}))
         // Make Scaling Functions
 
         xScale = d3.scaleLinear().domain([xmin_max.min, xmin_max.max]).range([0,1000])
-        yScale = d3.scaleBand().domain(d.States).range([600,0])
+        yScale = d3.scaleBand().domain(d3.map(d, function(d,i) {return d["State"]})).range([600,0])
 
+        let svg = d3.select("svg")
 
         let groups = svg.selectAll('g').data(stackedseries).enter().append('g');
-        console.log(groups)
-        // let svg = d3.select("body").append('svg')
+        console.log(groups);
 
-        // xScale = d3.scaleLinear().domain().range()
-        // yScale = d3.scaleLinear().domain().range()
+        // let rects = groups.selectAll("rect").data(function(d) {return d}).enter()
+        //                     .attr("x", function(d){return xScale(d["Male"])})
+        //                     .attr("y",function(d){return yScale(d["State"])})
+        //                     .attr("width", function(d) {return xScale(d['Female']-d['Male'])})
+        //                     .attr("height", function(d) {return 20})
+        // // let svg = d3.select("body").append('svg')
+
+        
         
     })
     </script>
