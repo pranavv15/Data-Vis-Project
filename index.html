@@ -46,6 +46,7 @@
 <body>
 
     <div id="tooltip"></div>
+    <div width="10%" id="button">Gender: &nbsp</div>
 
     <!-- <h1>The count of cancer patients in the country</h1>
     <h3>Visualized by sex</h3> -->
@@ -62,110 +63,154 @@
     let margins = {top: 20, bottom:50, left:100, right:20}
 
     data = "Obesity-Data-Sex.csv"
-    d3.csv(data, function(d){
-        return {
-            State: String(d.Location),
-            Male:   Number(d["Male"]),
-            Female: Number(d["Female"])
-        }
-    }).then(d => {
-       
-        k = d3.map(d, function(d) {return d["State"]})      // Just creating a list of states for further use
-        
-        
-        //  Stacking data
-        let stack = d3.stack().keys(["Male","Female"])
-        stackedseries = stack(d)
+    g = ["All","Male","Female"]
+    var dropdownButton = d3.select("#button")
+                    .append('select')
+                    .attr("class","dropDownButton")
+                    
+                    // add the options to the button
+                dropdownButton // Add a button
+                    .selectAll('myOptions') // 
+                        .data(g)
+                    .enter()
+                        .append('option')
+                    .text(function (d) { return d; }) // text showed in the menu
+                    .attr("value", function (d) { return d; }) 
+                    .attr()
 
+    function plot(data,choice)
+    {
+        d3.csv(data, function(d){
+            return {
+                State: String(d.Location),
+                Male:   Number(d["Male"]),
+                Female: Number(d["Female"])
+            }
+        }).then(d => {
         
+            k = d3.map(d, function(d) {return d["State"]})      // Just creating a list of states for further use
+            
+            if (choice === "All")
+            {
+            //  Stacking data
+                let stack = d3.stack().keys(["Male","Female"])
+                stackedseries = stack(d)
+                color = ['#E9A6A6','#1F1D36']
 
-        // Finding minimum and maximum 
-        let xmin_max = {min:0,max: d3.max(stackedseries, function(d){
-            return d3.max(d, function(d){
-                return d[1];
-            })
-        })}
-       
-        const width = svg.attr('width')
-        const height = svg.attr('height')
-        
-        
-        // Making x and y scales
-        xScale = d3.scaleLinear()
-                    .domain([xmin_max.min, xmin_max.max])
-                    .range([0+margins.left,1200-margins.right])
-        yScale = d3.scaleBand()
-                    .domain(d3.map(d, function(d) {return d["State"]}))
-                    .range([(600-margins.bottom), (0+margins.top)])
-                    .padding(1)
+                //Legend
+                svg.append("circle").attr("cx",1080).attr("cy",20).attr("r", 6).style("fill",'#E9A6A6' )
+                svg.append("circle").attr("cx",1080).attr("cy",40).attr("r", 6).style("fill", '#1F1D36')
+                svg.append("text").attr("x", 1100).attr("y", 25).text("Male").style("font-size", "15px").attr("alignment-baseline","top-right")
+                svg.append("text").attr("x", 1100).attr("y", 45).text("Female").style("font-size", "15px").attr("alignment-baseline","top-right")
+            }
+            if (choice==="Male"){
+                let stack = d3.stack().keys(["Male"])
+                stackedseries = stack(d)
+                color = ['#E9A6A6']
 
-       
-        color = ['#E9A6A6','#1F1D36']       // Specifying two colors for male and female
-        
-        // Creating groups for the data
-        let groups = svg.selectAll('g').data(stackedseries).enter().append('g')
-                        .style('fill', function(d,i) {
-                                return color[i]
+                //Legend
+                svg.append("circle").attr("cx",1080).attr("cy",20).attr("r", 6).style("fill",'#E9A6A6' )
+                svg.append("text").attr("x", 1100).attr("y", 25).text("Male").style("font-size", "15px").attr("alignment-baseline","top-right")
+            }   
+            if (choice==="Female"){
+                let stack = d3.stack().keys(["Female"])
+                stackedseries = stack(d)
+                color = ['#1F1D36']
+
+                //Legend
+                svg.append("circle").attr("cx",1080).attr("cy",40).attr("r", 6).style("fill", '#1F1D36')
+                svg.append("text").attr("x", 1100).attr("y", 45).text("Female").style("font-size", "15px").attr("alignment-baseline","top-right")
+            }
+                
+
+                // Finding minimum and maximum 
+                let xmin_max = {min:0,max: d3.max(stackedseries, function(d){
+                    return d3.max(d, function(d){
+                        return d[1];
+                    })
+                })}
+            
+                const width = svg.attr('width')
+                const height = svg.attr('height')
+                
+                
+                // Making x and y scales
+                xScale = d3.scaleLinear()
+                            .domain([xmin_max.min, xmin_max.max])
+                            .range([0+margins.left,1200-margins.right])
+                yScale = d3.scaleBand()
+                            .domain(d3.map(d, function(d) {return d["State"]}))
+                            .range([(600-margins.bottom), (0+margins.top)])
+                            .padding(1)
+
+            
+                // colr = ['#E9A6A6','#1F1D36']       // Specifying two colors for male and female
+                
+                // Creating groups for the data
+                let groups = svg.selectAll('g').data(stackedseries).enter().append('g')
+                                .style('fill', function(d,i) {
+                                        return color[i]
+                                })
+                // console.log(groups);
+
+
+                // Making rectangles for the bars and adding transitions
+                let rects = groups.selectAll("rect")
+                                    .data(function(d) {return d})
+                                    .enter()
+                                    .append("rect")
+                                    .attr("x", function(d){return 0+margins.left})
+                                    .attr("y", function(d,i) {return yScale(k[i])}) 
+                                    .attr("height", d=> 10)
+                                    .attr("width", function(d) {return 0})
+
+
+                                
+                    rects.transition()
+                                    .delay(function(d,i){return i*100})
+                                    .duration(100)
+                                    .attr("x", function(d){return xScale(d[0])})
+                                    .attr("width", function(d) {return xScale(d[1])-xScale(d[0])})
+                                    .attr("height", d=> 10)
+                                    
+                                    
+                    rects.on("mouseenter", (m,d) => {
+                                        d3.select("#tooltip")
+                                            .style("top",`${m.clientY}px`)
+                                            .style("left",`${m.clientX}px`)
+                                            .text("Count:" + (d[1]-d[0])
+                    //     //         tooltip.transition()
+                        //         .duration(200)
+                        //         .style("opacity", 1)
+                                                )
+                                })
+                        // //             rects.on("mousemove", (m, d) => {
+                        //             tooltip.style("opacity", .9)
+                        // })
+                                    rects.on("mouseout", (m, d) => {
+                                    // tooltip.transition()
+                                        //         .duration(200)
+                                                tooltip.style("opacity", 0)
                         })
-        console.log(groups);
-
-
-        // Making rectangles for the bars and adding transitions
-        let rects = groups.selectAll("rect")
-                            .data(function(d) {return d})
-                            .enter()
-                            .append("rect")
-                            .attr("x", function(d){return 0+margins.left})
-                            .attr("y", function(d,i) {return yScale(k[i])}) 
-                            .attr("height", d=> 10)
-                            .attr("width", function(d) {return 0})
-
-
-                        
-            rects.transition()
-                            .delay(function(d,i){return i*100})
-                            .duration(100)
-                            .attr("x", function(d){return xScale(d[0])})
-                            .attr("width", function(d) {return xScale(d[1])-xScale(d[0])})
-                            .attr("height", d=> 10)
-                            
-                            
-            rects.on("mouseenter", (m,d) => {
-                                d3.select("#tooltip")
-                                    .style("top",`${m.clientY}px`)
-                                    .style("left",`${m.clientX}px`)
-                                    .text("Count:" + (d[1]-d[0])
-            //     //         tooltip.transition()
-                //         .duration(200)
-                //         .style("opacity", 1)
-                                        )
-                           })
-                // //             rects.on("mousemove", (m, d) => {
-                //             tooltip.style("opacity", .9)
-                // })
-                             rects.on("mouseout", (m, d) => {
-                               // tooltip.transition()
-                                //         .duration(200)
-                                        tooltip.style("opacity", 0)
-                })
-        
-        // Creating axes
-        let y_axis = svg.append('g')
-                        .attr("transform", "translate("+margins.left+", "+5+")")
-                        .attr("class","yAxis")
-                        .call(d3.axisLeft(yScale))
-        let x_axis = svg.append('g')
-                        .attr("transform", "translate(0, "+(600-margins.bottom)+")")
-                        .attr("class","yAxis")
-                        .call(d3.axisBottom(xScale))
-
-        // Creating legends
-        svg.append("circle").attr("cx",1080).attr("cy",20).attr("r", 6).style("fill",'#E9A6A6' )
-        svg.append("circle").attr("cx",1080).attr("cy",40).attr("r", 6).style("fill", '#1F1D36')
-        svg.append("text").attr("x", 1100).attr("y", 25).text("Male").style("font-size", "15px").attr("alignment-baseline","top-right")
-        svg.append("text").attr("x", 1100).attr("y", 45).text("Female").style("font-size", "15px").attr("alignment-baseline","top-right")
-        
+                
+                // Creating axes
+                let y_axis = svg.append('g')
+                                .attr("transform", "translate("+margins.left+", "+5+")")
+                                .attr("class","yAxis")
+                                .call(d3.axisLeft(yScale))
+                let x_axis = svg.append('g')
+                                .attr("transform", "translate(0, "+(600-margins.bottom)+")")
+                                .attr("class","yAxis")
+                                .call(d3.axisBottom(xScale))
     })
+}
+                plot(data,"All")
+                dropdownButton.on("change",function(d){
+                            let selectedvar = d3.select(this).property("value")
+                            svg.selectAll("*").remove()
+                            plot(data,selectedvar)
+                            
+                    })
     </script>
     
 </body>
