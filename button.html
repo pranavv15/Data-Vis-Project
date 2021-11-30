@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buttons Try</title>
+</head>
+<style>
+    /* Container needed to position the button. Adjust the width as needed */
+.container {
+  position: relative;
+  left: 50px;
+  top: 10px;
+  bottom: 10px;
+  /* height: 100px; */
+  width: 6%;
+  margin: 5px;
+  /* padding: 5%; */
+}
+
+/* Make the image responsive */
+.container img {
+  width: 100px;
+  height: 80px;
+  
+}
+
+/* Style the button and place it in the middle of the container/image */
+.container .btn {
+  position: absolute;
+  top: 50%;
+  left: 80%;
+  transform: translate(0%, -50%);
+  -ms-transform: translate(0%, -0%);
+  background-color: #555;
+  opacity: 0.5;
+  color: white;
+  font-size: 10px;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.container .btn:hover {
+  background-color: black;
+}
+
+table
+{
+    position: relative;
+    border: 2px solid #180202;
+    border-collapse: collapse;
+    width: 200px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 40%;
+    bottom: 50%;
+        }
+        td{
+            border: 1px solid #180202;
+            border-collapse: collapse;
+            /* padding: 10px; */
+            width: 200px;
+            height: 100px;
+            /* vertical-align: middle; */
+            align-items: center;
+        }
+</style>
+<body>
+    <table>
+        <tr>
+            <td>
+                <div class="container">
+                    <img src="images/human-heart-1700453_640.png" alt="Snow">
+                    <button class="btn" id="cardiac">Cardiac Diseases</button>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="container">
+                    <img src="images/lungs-39981_640.png" alt="Snow">
+                    <button class="btn" id="lung">Lung Diseases</button>
+                </div> 
+            </td>
+        </tr>
+            
+            <tr>
+                <td>
+                    <div class="container">
+                        <img src="images/cancer-2797423_640.png" alt="Snow">
+                        <button class="btn" id="cancer">Cancer</button>
+                    </div>
+                </td>
+            </tr>
+      
+        <tr>
+          <td> 
+              <div class="container">
+                    <img src="images/diabetes-6728917_640.png" alt="Snow">
+                    <button class="btn" id="diabetes">Diabetes</button>
+                </div>
+            </td>
+        </tr>
+     
+        <tr>
+          <td>
+                <div class="container">
+                    <img src="images/scale-37772_640.png" alt="Snow">
+                    <button class="btn" id="obesity">Obesity</button>
+                </div>
+            </td>
+        </tr>
+       
+    </table>
+
+      <script>
+          const cardiac = document.getElementsByClassName("container")[0]
+          const lung = document.getElementsByClassName("container")[1]
+          const cancer = document.getElementsByClassName("container")[2]
+          const diabetes = document.getElementsByClassName("container")[3]
+          const obesity = document.getElementsByClassName("container")[4]
+
+          cardiac.onclick = function(){
+              console.log("clicked cardiac")
+          };
+
+          lung.onclick = function(){
+              console.log("clicked lung")
+          };
+          cancer.onclick = function(){
+              console.log("clicked cancer")
+          };
+          diabetes.onclick = function(){
+              console.log("clicked diabetes")
+          };
+          obesity.onclick = function(){
+              console.log("clicked obesity")
+          };
+
+
+
+      </script>
+</body>
+</html>
+<!--  Heart Image by <a href="https://pixabay.com/users/azwer-1819101/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1700453">azwer</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1700453">Pixabay</a>-->
+<!-- Lung Image by <a href="https://pixabay.com/users/clker-free-vector-images-3736/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=39981">Clker-Free-Vector-Images</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=39981">Pixabay</a> -->
+<!-- Cancer Image by <a href="https://pixabay.com/users/mcmurryjulie-2375405/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2797423">mcmurryjulie</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2797423">Pixabay</a> -->
+<!-- Diabetes Image by <a href="https://pixabay.com/users/mohamed_hassan-5229782/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=6728917">mohamed Hassan</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=6728917">Pixabay</a> -->
+<!-- Obesity Image by <a href="https://pixabay.com/users/clker-free-vector-images-3736/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=37772">Clker-Free-Vector-Images</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=37772">Pixabay</a> -->
