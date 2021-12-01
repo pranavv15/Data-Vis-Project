@@ -51,16 +51,16 @@
     <!-- <h1>The count of cancer patients in the country</h1>
     <h3>Visualized by sex</h3> -->
     <div id="container">
-        <h1>The count of cancer patients in the country</h1>
-        <h2>Visualized by sex</h3>
+        <!-- <h1>The count of cancer patients in the country</h1>
+        <h2>Visualized by sex</h3> -->
         <svg viewBox = "0 0 1200 600">
 
         </svg>
     </div>
     <script>
 
-    const svg = d3.select("svg")
-    let margins = {top: 20, bottom:50, left:100, right:20}
+    // const svg = d3.select("svg")
+    // let margins = {top: 20, bottom:50, left:100, right:20}
 
     dataset = ["Asthma-Data-Sex.csv","Cancer-Data.csv","Diabetes-Data-Sex.csv","Heart-Data-Sex.csv","Obesity-Data-Sex.csv"]
 
@@ -82,6 +82,10 @@
 
     function plot(data,choice)
     {
+        // svg.selectAll("*").remove()
+
+        const svg = d3.select("svg")
+        let margins = {top: 20, bottom:50, left:100, right:20}
         d3.csv(data, function(d){
             return {
                 State: String(d.Location),
@@ -91,7 +95,8 @@
         }).then(d => {
         
             k = d3.map(d, function(d) {return d["State"]})      // Just creating a list of states for further use
-            
+            svg.selectAll("*").remove()
+
             if (choice === "All")
             {
             //  Stacking data
@@ -169,13 +174,26 @@
 
                                 
                     rects.transition()
-                                    .delay(function(d,i){return i*100})
+                                    .delay(function(d,i){return i*10})
                                     .duration(100)
                                     .attr("x", function(d){return xScale(d[0])})
                                     .attr("width", function(d) {return xScale(d[1])-xScale(d[0])})
                                     // .attr("padding","1px")
                                     .attr("stroke","white")
                                     .attr("height", d=> 10)
+                                    // .append("text")
+                                    // .text(function(d){
+                                    //     return d.value;
+                                    // })
+                    // rects.append("text")
+                    //                 .attr("x",100)
+                    //                 .attr("y",5)
+                    //                 .attr("text-anchor","end")
+                    //                 .text(function(d){
+                    //                     return d.value;
+                    //                 })
+                    //                 .style("font-family","sans-serif")
+                    //                 .style("font-color","white")
                                     
                                     
                     rects.on("mouseover", (m,d) => {
@@ -183,15 +201,17 @@
                                         d3.select("#tooltip")
                                             .style("top",`${m.clientY}px`)
                                             .style("left",`${m.clientX}px`)
-                                            .text("Count:" + (d[1]-d[0])
-                                                )
+                                            .style("opacity",1)
+                                            .text("Count:" + (d[1]-d[0]))
                                 })
-                    rects.on("mouseout", (m,d) => {
+                    rects.on("mouseout", function(){
                         // console.log(m)
-                         d3.select("#tooltip")
-                            .transition()
-                            .delay(100)
-                                .style("opacity", 1)
+                         d3.select(this)
+                         .style("top",`${m.clientY}px`)
+                            .style("left",`${m.clientX}px`)
+                            // .transition()
+                            // .delay(100)
+                            .attr("opacity",0)
                         })
                 
                 // Creating axes
@@ -205,10 +225,33 @@
                                 .call(d3.axisBottom(xScale))
     })
 }
-                plot(data,"All")
+
+                function sbarplot(disease,dataset,gender){
+                    if(disease==="Asthma"){
+                        data=dataset[0]
+                        plot(data,gender)
+                    }
+                    if(disease==="Cancer"){
+                        data=dataset[1]
+                        plot(data,gender)
+                    }
+                    if(disease==="Diabetes"){
+                        data=dataset[2]
+                        plot(data,gender)
+                    }
+                    if(disease==="Heart"){
+                        data=dataset[3]
+                        plot(data,gender)
+                    }
+                    if(disease==="Obesity"){
+                        data=dataset[4]
+                        plot(data,gender)
+                    }
+                }
+                sbarplot("Heart",dataset,"All")
                 dropdownButton.on("change",function(d){
                             let selectedvar = d3.select(this).property("value")
-                            svg.selectAll("*").remove()
+                            // svg.selectAll("*").remove()
                             plot(data,selectedvar)
                             
                     })
