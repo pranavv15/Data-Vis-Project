@@ -89,8 +89,8 @@
         d3.csv(data, function(d){
             return {
                 State: String(d.Location),
-                Male:   Number(d["Male"]),
-                Female: Number(d["Female"])
+                Male:   Number(d["Male"]*100),
+                Female: Number(d["Female"]*100)
             }
         }).then(d => {
         
