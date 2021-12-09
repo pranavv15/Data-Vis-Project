@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Vis Project</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        h1{
+            font-family: sans-serif;
+            margin: 0 auto;
+            justify-content: center;
+            
+        }
+        td {
+            width: 290px;
+         } 
+        .middle{
+            width: 290px;
+            /* height: 600px; */
+        }
+
+        #container{
+            width: 80%;
+            height: 80%;
+            margin: auto;
+            padding-top: 3%;
+            background-color: white;
+            /* margin: auto; */
+            /* justify-content: center; */
+            text-align:center;
+        }
+         /* #right {
+            width: 80%;
+            margin: auto;
+            padding-top: 3%;
+            background-color: white;
+            /* margin: auto; */
+            /* justify-content: center; */
+            /* text-align:end;
+        } */ 
+        .yAxis {
+            font-size: x-small;
+        }
+
+        #tooltip {
+            padding: 5px;
+            width: 80px;
+            position: absolute;
+            opacity: .7;
+            background-color:#cabe14;
+            font-family: sans-serif;
+            font-size: 10pt;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div id="tooltip"></div>
+    <div width="10%" id="button">Gender: &nbsp</div>
+
+    <!-- <h1>The count of cancer patients in the country</h1>
+    <h3>Visualized by sex</h3> -->
+    <div id="container">
+        <!-- <h1>The count of cancer patients in the country</h1>
+        <h2>Visualized by sex</h3> -->
+        <table>
+            <tr>
+            <td class="left" style="text-align: right;">
+        <svg viewBox = "0 0 600 600" id="left"></svg>
+        <td class="middle" style="text-align: center;">
+            <svg viewBox = "0 0 1200 600" id="middle"></svg>
+        
+            </td class="right" style="text-align: left">
+<td>
+        <svg viewBox = "0 0 600 600" id="right"></svg>
+</td>
+            </tr>
+        </table>
+    </div>
+    <script>
+
+    // const svg = d3.select("svg")
+    // let margins = {top: 20, bottom:50, left:100, right:20}
+
+    dataset = ["Asthma-Data-Sex.csv","Cancer-Data.csv","Diabetes-Data-Sex.csv","Heart-Data-Sex.csv","Obesity-Data-Sex.csv"]
+
+    // data = dataset[0]
+    g = ["All","Male","Female"]
+    var dropdownButton = d3.select("#button")
+                    .append('select')
+                    .attr("class","dropDownButton")
+                    
+                    // add the options to the button
+                dropdownButton // Add a button
+                    .selectAll('myOptions') // 
+                        .data(g)
+                    .enter()
+                        .append('option')
+                    .text(function (d) { return d; }) // text showed in the menu
+                    .attr("value", function (d) { return d; }) 
+                    .attr()
+function plotright(choice,disease){
+    const svg = d3.select("#right")
+    let margins = {top: 20, bottom:50, left:20, right:20}
+            if(disease == "Asthma"){
+            data=dataset[0]
+            }
+            else if(disease == "Diabetes"){
+            data=dataset[2]
+            }
+            else if(disease == "Heart"){
+            data=dataset[3]
+            }
+            else if(disease == "Obesity"){
+            data=dataset[4]
+            }
+
+
+            d3.csv(data, function(d){
+            return {
+                State: String(d.Location),
+                Male:   Number(d["Male"]),
+                Female: Number(d["Female"]),
+                All: Number(d["All Adults"])
+            }
+        }).then(d => {
+            console.log(d)
+
+            k = d3.map(d, function(d) {return d["State"]})      // Just creating a list of states for further use
+            svg.selectAll("*").remove()
+
+            if (choice === "All")
+            {
+            //  Stacking data
+                let stack = d3.stack().keys(["All"])
+                stackedseries1 = stack(d)
+                color = ["#cabe14"]
+
+                //Legend
+                svg.append("circle").attr("cx",1080).attr("cy",20).attr("r", 6).style("fill",'lightblue' )
+                svg.append("circle").attr("cx",1080).attr("cy",40).attr("r", 6).style("fill", '#E9A6A6')
+                svg.append("text").attr("x", 1100).attr("y", 25).text("Male").style("font-size", "15px").attr("alignment-baseline","top-right")
+                svg.append("text").attr("x", 1100).attr("y", 45).text("Female").style("font-size", "15px").attr("alignment-baseline","top-right")
+            }
+            if (choice==="Male"){
+                let stack = d3.stack().keys(["Male"])
+                stackedseries1 = stack(d)
+                color = ['lightblue']
+
+                //Legend
+                svg.append("circle").attr("cx",1080).attr("cy",20).attr("r", 6).style("fill",'lightblue' )
+                svg.append("text").attr("x", 1100).attr("y", 25).text("Male").style("font-size", "15px").attr("alignment-baseline","top-right")
+            }   
+            if (choice==="Female"){
+                let stack = d3.stack().keys(["Female"])
+                stackedseries1 = stack(d)
+                color = ['#E9A6A6']
+
+                //Legend
+                svg.append("circle").attr("cx",1080).attr("cy",40).attr("r", 6).style("fill", '#E9A6A6')
+                svg.append("text").attr("x", 1100).attr("y", 45).text("Female").style("font-size", "15px").attr("alignment-baseline","top-right")
+            }
+                
+
+                // Finding minimum and maximum 
+                let xmin_max = {min:0,max: 0.2}
+            
+                const width = svg.attr('width')
+                const height = svg.attr('height')
+                
+                // const svgm = d3.select("#middle")
+                // Making x and y scales
+                xScaleRight = d3.scaleLinear()
+                            .domain([xmin_max.min, xmin_max.max])
+                            .range([-200,800-margins.right])
+                yScaleRight = d3.scaleBand()
+                            .domain(d3.map(d, function(d) {return d["State"]}))
+                            .range([(600-margins.bottom), (0+margins.top)])
+                            .padding(1)
+
+                
+               
+                
+                // Creating groups for the data
+                let groups1 = svg.selectAll('g').data(stackedseries1).enter().append('g')
+                                .style('fill', function(d,i) {
+                                        return color[i]
+                                })
+
+
+                // Making rectangles for the bars and adding transitions
+                let rectsRight = groups1.selectAll("rect.right")
+                                    .data(function(d) {return d})
+                                    .enter()
+                                    .append("rect")
+                                    .attr("x", function(d){return 600+margins.left})
+                                    .attr("y", function(d,i) {return yScaleRight(k[i])}) 
+                                    .attr("class","Right")
+                                    .attr("height", d=> 10)
+                                    .attr("width", function(d) {return 0})
+
+
+                                
+                    rectsRight.transition()
+                                    .delay(function(d,i){return i*10})
+                                    .duration(100)
+                                    .attr("x", function(d){return xScaleRight(d[0])})
+                                    .attr("width", function(d) {return xScaleRight(d[1])-xScaleRight(d[0])})
+                                    // .attr("padding","1px")
+                                    .attr("stroke","black")
+                                    .attr("height", d=> 10)
+                
+                // Creating axes
+                const svgm = d3.select("#middle")
+                yScaleRight2 = d3.scaleBand()
+                            .domain(d3.map(d, function(d) {return d["State"]}))
+                            .range([(600-margins.bottom), (0+margins.top)])
+                            .padding(1)
+                let y_axisRight = svgm.append('g')
+                                .attr("transform", "translate("+(600)+", "+10+")")
+                                .attr("class","yAxisRight")
+                                .call(d3.axisLeft(yScaleRight2))
+                let x_axisRight = svg.append('g')
+                                .attr("transform", "translate("+(0)+", "+(600-margins.bottom)+")")
+                                .attr("class","xAxisRight")
+                                .call(d3.axisBottom(xScaleRight))
+
+                
+    })}
+        function plotleft(choice,disease){
+            const svg2 = d3.select("#left")
+            let margins2 = {top: 20, bottom:50, left:20, right:20}
+            if(disease == "Asthma"){
+            data2=dataset[0]
+            }
+            else if(disease == "Diabetes"){
+            data2=dataset[2]
+            }
+            else if(disease == "Heart"){
+            data2=dataset[3]
+            }
+            else if(disease == "Obesity"){
+            data2=dataset[4]
+            }
+
+            d3.csv(data2, function(d){
+                return {
+                    State: String(d.Location),
+                    Male:   Number(d["Male"]),
+                    Female: Number(d["Female"]),
+                    All: Number(d["All Adults"])
+                }
+            }).then(d => {
+                // console.log(d)
+            
+                k = d3.map(d, function(d) {return d["State"]})      // Just creating a list of states for further use
+                svg2.selectAll("*").remove()
+
+                if (choice === "All")
+                {
+                //  Stacking data
+                    let stack = d3.stack().keys(["All"])
+                    stackedseries2 = stack(d)
+                    color = ["#cabe14"]
+
+                    //Legend
+                    svg2.append("circle").attr("cx",1080).attr("cy",20).attr("r", 6).style("fill",'lightblue' )
+                    svg2.append("circle").attr("cx",1080).attr("cy",40).attr("r", 6).style("fill", '#E9A6A6')
+                    svg2.append("text").attr("x", 1100).attr("y", 25).text("Male").style("font-size", "15px").attr("alignment-baseline","top-right")
+                    svg2.append("text").attr("x", 1100).attr("y", 45).text("Female").style("font-size", "15px").attr("alignment-baseline","top-right")
+                }
+                if (choice==="Male"){
+                    let stack = d3.stack().keys(["Male"])
+                    stackedseries2 = stack(d)
+                    color = ['lightblue']
+
+                    //Legend
+                    // svg2.append("circle").attr("cx",1080).attr("cy",20).attr("r", 6).style("fill",'lightblue' )
+                    // svg2.append("text").attr("x", 1100).attr("y", 25).text("Male").style("font-size", "15px").attr("alignment-baseline","top-right")
+                }   
+                if (choice==="Female"){
+                    let stack = d3.stack().keys(["Female"])
+                    stackedseries2 = stack(d)
+                    color = ['#E9A6A6']
+
+                    //Legend
+                    svg2.append("circle").attr("cx",1080).attr("cy",40).attr("r", 6).style("fill", '#E9A6A6')
+                    svg2.append("text").attr("x", 1100).attr("y", 45).text("Female").style("font-size", "15px").attr("alignment-baseline","top-right")
+                }
+                    
+
+                    // Finding minimum and maximum 
+                    let xmin_max = {min:0,max: 0.2}
+                
+                    const width = svg2.attr('width')
+                    const height = svg2.attr('height')
+                    
+                    
+                    // Making x and y scales
+                    yScale2 = d3.scaleBand()
+                                .domain(d3.map(d, function(d) {return d["State"]}))
+                                .range([(600-margins2.bottom), (0+margins2.top)])
+                                .padding(1)
+
+                    
+                    xScaleLeft = d3.scaleLinear()
+                                .domain([xmin_max.min, xmin_max.max])
+                                .range([900+margins2.left,0+margins2.left])
+                    
+                    let groups2 = svg2.selectAll('g').data(stackedseries2).enter().append('g')
+                                    .style('fill', function(d,i) {
+                                            return color[i]
+                                    })
+                                    // console.log(groups)
+
+
+                // Making rectangles for the bars and adding transitions
+                    let rectsLeft = groups2.selectAll("rect.left")
+                                        .data(function(d) {return d})
+                                        .enter()
+                                        .append("rect")
+                                        .attr("x", function(d){return xScaleLeft(d[1])})
+                                        .attr("y", function(d,i) {return yScale2(k[i])}) 
+                                        // console.log(function(d,i) {return yScale(k[i])})
+                                        .attr("class","Left")
+                                        .attr("height", d=> 10)
+                                        .attr("width", function(d) {return 0})
+                                        .attr("padding","1px")
+                                        .attr("stroke","black")
+
+                    
+
+                                    
+                        rectsLeft.transition()
+                                        .delay(function(d,i){return i*10})
+                                        .duration(100)
+                                        .attr("x", function(d){return xScaleLeft(d[1])})
+                                        .attr("width", function(d) {return xScaleLeft(d[0])-xScaleLeft(d[1])})
+                                        // .attr("padding","1px")
+                                        .attr("stroke","black")
+                                        .attr("height", d=> 10)
+                
+                // Creating axes
+                
+                    let x_axisLeft = svg2.append('g')
+                                    .attr("transform", "translate("+(0)+", "+(600-margins2.bottom)+")")
+                                    .attr("class","xAxisLeft")
+                                    .call(d3.axisBottom(xScaleLeft))
+                
+        })
+
+
+}
+        
+                plotleft("All","Asthma")
+                plotright("All","Diabetes")
+
+                dropdownButton.on("change",function(d){
+                            let selectedvar = d3.select(this).property("value")
+                            // svg.selectAll("*").remove()
+                            plotright(selectedvar,"Asthma")
+                            plotleft(selectedvar,"Diabetes")
+                            
+                    })
+    </script>
+    
+</body>
+</html>        
