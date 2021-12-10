@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Vis Project</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <style>
         svg {
             width: 100%;
@@ -18,17 +19,10 @@
             justify-content: center;
             
         }
-        td {
-            width: 290px;
-         } 
-        .middle{
-            width: 290px;
-            /* height: 600px; */
-        }
 
         #container{
-            width: 80%;
-            height: 80%;
+            width: 90%;
+            height: 80vh;
             margin: auto;
             padding-top: 3%;
             background-color: white;
@@ -71,19 +65,29 @@
     <div id="container">
         <!-- <h1>The count of cancer patients in the country</h1>
         <h2>Visualized by sex</h3> -->
-        <table>
-            <tr>
-            <td class="left" style="text-align: right;">
-        <svg viewBox = "0 0 600 600" id="left"></svg>
-        <td class="middle" style="text-align: center;">
-            <svg viewBox = "0 0 1200 600" id="middle"></svg>
+
+        <div class="container">
+            <div class="row">
+                <div class="col pe-0">
+                    <svg viewBox = "0 0 600 600" id="left"></svg>
+                </div>
+                <div class="col ps-0">
+                    <svg viewBox = "0 0 600 600" id="right"></svg>
+                </div>
+            </div>
+            
+            
+        </div>
         
-            </td class="right" style="text-align: left">
-<td>
-        <svg viewBox = "0 0 600 600" id="right"></svg>
-</td>
+        <!-- <td class="middle" style="text-align: center;">
+            <svg viewBox = "0 0 300 300" id="middle"></svg></td> -->
+        
+            <!-- </td class="right" style="text-align: left"> -->
+        <!-- <td class="right" style="text-align: left"> -->
+            
+            <!-- </td>
             </tr>
-        </table>
+        </table> -->
     </div>
     <script>
 
@@ -91,15 +95,15 @@
     // let margins = {top: 20, bottom:50, left:100, right:20}
 
     dataset = ["Asthma-Data-Sex.csv","Cancer-Data.csv","Diabetes-Data-Sex.csv","Heart-Data-Sex.csv","Obesity-Data-Sex.csv"]
-
+    diseases = ["Asthma", "Diabetes", "Heart", "Obesity"]
     // data = dataset[0]
     g = ["All","Male","Female"]
-    var dropdownButton = d3.select("#button")
+    var dropdownButton1 = d3.select("#button")
                     .append('select')
                     .attr("class","dropDownButton")
                     
                     // add the options to the button
-                dropdownButton // Add a button
+                dropdownButton1 // Add a button
                     .selectAll('myOptions') // 
                         .data(g)
                     .enter()
@@ -107,20 +111,58 @@
                     .text(function (d) { return d; }) // text showed in the menu
                     .attr("value", function (d) { return d; }) 
                     .attr()
+                    // var dropdownButton2 = d3.select("#button")
+                    // .append('select')
+                    // .attr("class","dropDownButton")
+                    
+                    // add the options to the button
+                    var dropdownButton2 = d3.select("#button")
+                    .append('select')
+                    .attr("class","dropDownButton")
+                    dropdownButton2 // Add a button
+                    .selectAll('myOptions') // 
+                        .data(diseases)
+                    .enter()
+                        .append('option')
+                    .text(function (d) { return d; }) // text showed in the menu
+                    .attr("value", function (d) { return d; }) 
+                    .attr()
+                    // var dropdownButton = d3.select("#button")
+                    // .append('select')
+                    // .attr("class","dropDownButton")
+                    
+                    var dropdownButton3 = d3.select("#button")
+                    .append('select')
+                    .attr("class","dropDownButton")
+                    dropdownButton3 // Add a button
+                    .selectAll('myOptions') // 
+                        .data(diseases)
+                    .enter()
+                        .append('option')
+                    .text(function (d) { return d; }) // text showed in the menu
+                    .attr("value", function (d) { return d; }) 
+                    .attr()
+                    
+    
+    
 function plotright(choice,disease){
     const svg = d3.select("#right")
     let margins = {top: 20, bottom:50, left:20, right:20}
             if(disease == "Asthma"){
             data=dataset[0]
+            let xmin_max = {min:0,max: 0.4}
             }
             else if(disease == "Diabetes"){
             data=dataset[2]
+            let xmin_max = {min:0,max: 0.4}
             }
             else if(disease == "Heart"){
             data=dataset[3]
+            let xmin_max = {min:0,max: 0.4}
             }
             else if(disease == "Obesity"){
             data=dataset[4]
+            let xmin_max = {min:0,max: 0.4}
             }
 
 
@@ -145,10 +187,8 @@ function plotright(choice,disease){
                 color = ["#cabe14"]
 
                 //Legend
-                svg.append("circle").attr("cx",1080).attr("cy",20).attr("r", 6).style("fill",'lightblue' )
-                svg.append("circle").attr("cx",1080).attr("cy",40).attr("r", 6).style("fill", '#E9A6A6')
-                svg.append("text").attr("x", 1100).attr("y", 25).text("Male").style("font-size", "15px").attr("alignment-baseline","top-right")
-                svg.append("text").attr("x", 1100).attr("y", 45).text("Female").style("font-size", "15px").attr("alignment-baseline","top-right")
+                // svg.append("circle").attr("cx",450).attr("cy",20).attr("r", 6).style("fill","#cabe14")
+                svg.append("text").attr("x", 460).attr("y", 25).text(disease).style("font-size", "25px").attr("alignment-baseline","top-right")
             }
             if (choice==="Male"){
                 let stack = d3.stack().keys(["Male"])
@@ -156,8 +196,8 @@ function plotright(choice,disease){
                 color = ['lightblue']
 
                 //Legend
-                svg.append("circle").attr("cx",1080).attr("cy",20).attr("r", 6).style("fill",'lightblue' )
-                svg.append("text").attr("x", 1100).attr("y", 25).text("Male").style("font-size", "15px").attr("alignment-baseline","top-right")
+                // svg.append("circle").attr("cx",450).attr("cy",20).attr("r", 6).style("fill",'lightblue' )
+                svg.append("text").attr("x", 460).attr("y", 25).text(disease).style("font-size", "25px").attr("alignment-baseline","top-right")
             }   
             if (choice==="Female"){
                 let stack = d3.stack().keys(["Female"])
@@ -165,13 +205,13 @@ function plotright(choice,disease){
                 color = ['#E9A6A6']
 
                 //Legend
-                svg.append("circle").attr("cx",1080).attr("cy",40).attr("r", 6).style("fill", '#E9A6A6')
-                svg.append("text").attr("x", 1100).attr("y", 45).text("Female").style("font-size", "15px").attr("alignment-baseline","top-right")
+                // svg.append("circle").attr("cx",450).attr("cy",20).attr("r", 6).style("fill", '#E9A6A6')
+                svg.append("text").attr("x", 460).attr("y", 25).text(disease).style("font-size", "25px").attr("alignment-baseline","top-right")
             }
                 
 
                 // Finding minimum and maximum 
-                let xmin_max = {min:0,max: 0.2}
+                let xmin_max = {min:0,max: 0.4}
             
                 const width = svg.attr('width')
                 const height = svg.attr('height')
@@ -180,7 +220,7 @@ function plotright(choice,disease){
                 // Making x and y scales
                 xScaleRight = d3.scaleLinear()
                             .domain([xmin_max.min, xmin_max.max])
-                            .range([-200,800-margins.right])
+                            .range([100,600-margins.right])
                 yScaleRight = d3.scaleBand()
                             .domain(d3.map(d, function(d) {return d["State"]}))
                             .range([(600-margins.bottom), (0+margins.top)])
@@ -204,7 +244,7 @@ function plotright(choice,disease){
                                     .attr("x", function(d){return 600+margins.left})
                                     .attr("y", function(d,i) {return yScaleRight(k[i])}) 
                                     .attr("class","Right")
-                                    .attr("height", d=> 10)
+                                    .attr("height", d=> 5)
                                     .attr("width", function(d) {return 0})
 
 
@@ -216,18 +256,16 @@ function plotright(choice,disease){
                                     .attr("width", function(d) {return xScaleRight(d[1])-xScaleRight(d[0])})
                                     // .attr("padding","1px")
                                     .attr("stroke","black")
-                                    .attr("height", d=> 10)
+                                    .attr("height", d=> 5)
+                                    
+
+                                   
                 
-                // Creating axes
-                const svgm = d3.select("#middle")
-                yScaleRight2 = d3.scaleBand()
-                            .domain(d3.map(d, function(d) {return d["State"]}))
-                            .range([(600-margins.bottom), (0+margins.top)])
-                            .padding(1)
-                let y_axisRight = svgm.append('g')
-                                .attr("transform", "translate("+(600)+", "+10+")")
+              
+                let y_axisRight = svg.append('g')
+                                .attr("transform", "translate("+(85)+", "+2+")")
                                 .attr("class","yAxisRight")
-                                .call(d3.axisLeft(yScaleRight2))
+                                .call(d3.axisLeft(yScaleRight))
                 let x_axisRight = svg.append('g')
                                 .attr("transform", "translate("+(0)+", "+(600-margins.bottom)+")")
                                 .attr("class","xAxisRight")
@@ -240,15 +278,23 @@ function plotright(choice,disease){
             let margins2 = {top: 20, bottom:50, left:20, right:20}
             if(disease == "Asthma"){
             data2=dataset[0]
+            let xmin_max = {min:0,max: 0.2}
+
             }
             else if(disease == "Diabetes"){
             data2=dataset[2]
+            let xmin_max = {min:0,max: 0.2}
+
             }
             else if(disease == "Heart"){
             data2=dataset[3]
+            let xmin_max = {min:0,max: 0.2}
+
             }
             else if(disease == "Obesity"){
             data2=dataset[4]
+            let xmin_max = {min:0,max: 0.2}
+
             }
 
             d3.csv(data2, function(d){
@@ -269,36 +315,36 @@ function plotright(choice,disease){
                 //  Stacking data
                     let stack = d3.stack().keys(["All"])
                     stackedseries2 = stack(d)
-                    color = ["#cabe14"]
+                    color = ["#01DF01"]
 
                     //Legend
-                    svg2.append("circle").attr("cx",1080).attr("cy",20).attr("r", 6).style("fill",'lightblue' )
-                    svg2.append("circle").attr("cx",1080).attr("cy",40).attr("r", 6).style("fill", '#E9A6A6')
-                    svg2.append("text").attr("x", 1100).attr("y", 25).text("Male").style("font-size", "15px").attr("alignment-baseline","top-right")
-                    svg2.append("text").attr("x", 1100).attr("y", 45).text("Female").style("font-size", "15px").attr("alignment-baseline","top-right")
+                    // svg2.append("circle").attr("cx",10).attr("cy",20).attr("r", 6).style("fill","#cabe14" )
+                    // svg2.append("circle").attr("cx",1080).attr("cy",40).attr("r", 6).style("fill", '#E9A6A6')
+                    svg2.append("text").attr("x", 20).attr("y", 25).text(disease).style("font-size", "25px").attr("alignment-baseline","top-right")
+                    // svg2.append("text").attr("x", 1100).attr("y", 45).text("Female").style("font-size", "15px").attr("alignment-baseline","top-right")
                 }
                 if (choice==="Male"){
                     let stack = d3.stack().keys(["Male"])
                     stackedseries2 = stack(d)
-                    color = ['lightblue']
+                    color = ['#0431B4']
 
                     //Legend
-                    // svg2.append("circle").attr("cx",1080).attr("cy",20).attr("r", 6).style("fill",'lightblue' )
-                    // svg2.append("text").attr("x", 1100).attr("y", 25).text("Male").style("font-size", "15px").attr("alignment-baseline","top-right")
+                    // svg2.append("circle").attr("cx",10).attr("cy",20).attr("r", 6).style("fill",'lightblue' )
+                    svg2.append("text").attr("x", 20).attr("y", 25).text(disease).style("font-size", "25px").attr("alignment-baseline","top-right")
                 }   
                 if (choice==="Female"){
                     let stack = d3.stack().keys(["Female"])
                     stackedseries2 = stack(d)
-                    color = ['#E9A6A6']
+                    color = ['#F781F3']
 
                     //Legend
-                    svg2.append("circle").attr("cx",1080).attr("cy",40).attr("r", 6).style("fill", '#E9A6A6')
-                    svg2.append("text").attr("x", 1100).attr("y", 45).text("Female").style("font-size", "15px").attr("alignment-baseline","top-right")
+                    // svg2.append("circle").attr("cx",10).attr("cy",20).attr("r", 6).style("fill", '#E9A6A6')
+                    svg2.append("text").attr("x", 20).attr("y", 25).text(disease).style("font-size", "25px").attr("alignment-baseline","top-right")
                 }
                     
 
                     // Finding minimum and maximum 
-                    let xmin_max = {min:0,max: 0.2}
+                    let xmin_max = {min:0,max: 0.4}
                 
                     const width = svg2.attr('width')
                     const height = svg2.attr('height')
@@ -313,7 +359,7 @@ function plotright(choice,disease){
                     
                     xScaleLeft = d3.scaleLinear()
                                 .domain([xmin_max.min, xmin_max.max])
-                                .range([900+margins2.left,0+margins2.left])
+                                .range([570+margins2.left,0+margins2.left])
                     
                     let groups2 = svg2.selectAll('g').data(stackedseries2).enter().append('g')
                                     .style('fill', function(d,i) {
@@ -331,7 +377,7 @@ function plotright(choice,disease){
                                         .attr("y", function(d,i) {return yScale2(k[i])}) 
                                         // console.log(function(d,i) {return yScale(k[i])})
                                         .attr("class","Left")
-                                        .attr("height", d=> 10)
+                                        .attr("height", d=> 5)
                                         .attr("width", function(d) {return 0})
                                         .attr("padding","1px")
                                         .attr("stroke","black")
@@ -346,12 +392,13 @@ function plotright(choice,disease){
                                         .attr("width", function(d) {return xScaleLeft(d[0])-xScaleLeft(d[1])})
                                         // .attr("padding","1px")
                                         .attr("stroke","black")
-                                        .attr("height", d=> 10)
+                                        .attr("height", d=> 5)
+                      
                 
                 // Creating axes
                 
                     let x_axisLeft = svg2.append('g')
-                                    .attr("transform", "translate("+(0)+", "+(600-margins2.bottom)+")")
+                                    .attr("transform", "translate("+(-0)+", "+(600-margins2.bottom)+")")
                                     .attr("class","xAxisLeft")
                                     .call(d3.axisBottom(xScaleLeft))
                 
@@ -363,14 +410,30 @@ function plotright(choice,disease){
                 plotleft("All","Asthma")
                 plotright("All","Diabetes")
 
-                dropdownButton.on("change",function(d){
-                            let selectedvar = d3.select(this).property("value")
-                            // svg.selectAll("*").remove()
-                            plotright(selectedvar,"Asthma")
-                            plotleft(selectedvar,"Diabetes")
+                dropdownButton1.on("change",function(d){
+                            let selectedvar1 = d3.select(this).property("value")
+                            
+                    dropdownButton2.on("change",function(d){
+                            let selectedvar2 = d3.select(this).property("value")
+                            
+                            plotleft(selectedvar1,selectedvar2)
+                            
                             
                     })
+                    
+                    dropdownButton3.on("change",function(d){
+                            let selectedvar3 = d3.select(this).property("value")
+                            plotright(selectedvar1,selectedvar3)
+                            
+                    })
+
+                            
+                    })
+                    
+
+
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     
 </body>
 </html>        
