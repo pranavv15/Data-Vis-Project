@@ -257,6 +257,28 @@ function plotright(choice,disease){
                                     // .attr("padding","1px")
                                     .attr("stroke","black")
                                     .attr("height", d=> 5)
+                                rectsRight.on("mouseenter",function(m,d){
+                                       d3.select("#tooltip")
+                                            .html(m.target.attributes.x.ownerElement.__data__[1])
+                                            .style("left", m.clientX + "px")
+                                            .style("top", m.clientY + "px")
+                                            .style("background-color",color)
+                                            .style("opacity",0.9)
+
+                                    })
+                                        rectsRight.on("mousemove", function(m, d){
+                                            console.log(d)
+                                            d3.select("#tooltip")
+                                            .style("opacity",0.9)
+                                    })
+                                    
+                                rectsRight.on("mouseleave",function(m,d){
+                                        d3.select('#tooltip')
+                                            .transition()
+                                            .delay(100)
+                                            .duration(500)
+                                            .style('opacity',0)
+                                    })
                                     
 
                                    
@@ -315,30 +337,26 @@ function plotright(choice,disease){
                 //  Stacking data
                     let stack = d3.stack().keys(["All"])
                     stackedseries2 = stack(d)
-                    color = ["#01DF01"]
+                    colorl = ["#01DF01"]
 
                     //Legend
-                    // svg2.append("circle").attr("cx",10).attr("cy",20).attr("r", 6).style("fill","#cabe14" )
-                    // svg2.append("circle").attr("cx",1080).attr("cy",40).attr("r", 6).style("fill", '#E9A6A6')
+                    
                     svg2.append("text").attr("x", 20).attr("y", 25).text(disease).style("font-size", "25px").attr("alignment-baseline","top-right")
-                    // svg2.append("text").attr("x", 1100).attr("y", 45).text("Female").style("font-size", "15px").attr("alignment-baseline","top-right")
                 }
                 if (choice==="Male"){
                     let stack = d3.stack().keys(["Male"])
                     stackedseries2 = stack(d)
-                    color = ['#0431B4']
+                    colorl = ['#0431B4']
 
                     //Legend
-                    // svg2.append("circle").attr("cx",10).attr("cy",20).attr("r", 6).style("fill",'lightblue' )
                     svg2.append("text").attr("x", 20).attr("y", 25).text(disease).style("font-size", "25px").attr("alignment-baseline","top-right")
                 }   
                 if (choice==="Female"){
                     let stack = d3.stack().keys(["Female"])
                     stackedseries2 = stack(d)
-                    color = ['#F781F3']
+                    colorl = ['#F781F3']
 
                     //Legend
-                    // svg2.append("circle").attr("cx",10).attr("cy",20).attr("r", 6).style("fill", '#E9A6A6')
                     svg2.append("text").attr("x", 20).attr("y", 25).text(disease).style("font-size", "25px").attr("alignment-baseline","top-right")
                 }
                     
@@ -363,7 +381,7 @@ function plotright(choice,disease){
                     
                     let groups2 = svg2.selectAll('g').data(stackedseries2).enter().append('g')
                                     .style('fill', function(d,i) {
-                                            return color[i]
+                                            return colorl[i]
                                     })
                                     // console.log(groups)
 
@@ -393,6 +411,39 @@ function plotright(choice,disease){
                                         // .attr("padding","1px")
                                         .attr("stroke","black")
                                         .attr("height", d=> 5)
+                                        rectsLeft.on("mouseenter",function(m,d){
+                                        // console.log(m.target.attributes)
+                                        // console.log(d)
+
+                                        // console.log(this)
+                                        // rectsLeft.attr("height",10)
+                                        d3.select("#tooltip")
+                                            .html(m.target.attributes.x.ownerElement.__data__[1])
+                                            .style("left", m.clientX + "px")
+                                            .style("top", m.clientY + "px")
+                                            .style("background-color",colorl)
+                                            .style("opacity",0.9)
+
+                                    })
+                                        // .style("opacity",0.9)
+
+                                        rectsLeft.on("mousemove", function(m, d){
+                                            console.log(d)
+                                            d3.select("#tooltip")
+                                            // .html(m.target.attributes.x.ownerElement.__data__[1])
+                                            // .style("left", m.clientX + "px")
+                                            // .style("top", m.clientY + "px")
+                                            .style("opacity",0.9)
+                                    })
+                                    
+                                rectsLeft.on("mouseleave",function(m,d){
+                                        d3.select('#tooltip')
+                                            .transition()
+                                            .delay(100)
+                                            .duration(500)
+                                            .style('opacity',0)
+                                    })
+                                    
                       
                 
                 // Creating axes
